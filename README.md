@@ -3,13 +3,13 @@ For 1337 Team Graduation Project
 
 - Setup Steps
 ```
-create your db and called it learn_english 
-Import sql file in this db
-Go to Config.php in main directory project 
-Change it to your server config
+* Create your db and called it learn_english 
+* Import sql file in this db
+* Go to Config.php in main directory project 
+* Change it to your server config
 ```
 - To Access Admin Dashboard 
 ```
-hit : domain/Pagges/admin/index.php
-'''
+Hit : domain/Pagges/admin/index.php
+```
 
