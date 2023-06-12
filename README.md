@@ -10,6 +10,6 @@ For 1337 Team Graduation Project
 ```
 - To Access Admin Dashboard 
 ```
-Hit : domain/Pagges/admin/index.php
+Hit : domain/Pages/admin/index.php
 ```
 
