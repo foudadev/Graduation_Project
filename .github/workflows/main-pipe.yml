@@ -47,4 +47,3 @@ jobs:
         with:
           sarif_file: semgrep.sarif
           category: php-sast
-```
