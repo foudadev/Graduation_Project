@@ -1,4 +1,4 @@
-name: "PHP SAST"
+name: "PHP SAST - Semgrep"
 
 on:
   push:
@@ -27,9 +27,16 @@ jobs:
       image: semgrep/semgrep:latest
 
     steps:
+
+      # ==========================================
+      # Checkout repository
+      # ==========================================
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      # ==========================================
+      # Run PHP SAST and generate SARIF
+      # ==========================================
       - name: Run PHP SAST
         run: |
           semgrep scan \
@@ -40,9 +47,39 @@ jobs:
             --metrics=off \
             .
 
-      - name: Upload SARIF results
+      # ==========================================
+      # Show findings in GitHub Actions log
+      # ==========================================
+      - name: Show SAST findings
+        if: always()
+        run: |
+          echo "=========================================="
+          echo "PHP SAST - Semgrep Findings"
+          echo "=========================================="
+
+          semgrep scan \
+            --config=p/php \
+            --include='*.php' \
+            --metrics=off \
+            .
+
+      # ==========================================
+      # Upload SARIF to GitHub Code Scanning
+      # ==========================================
+      - name: Upload SARIF to GitHub Code Scanning
         if: always()
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: semgrep.sarif
           category: php-sast
+
+      # ==========================================
+      # Upload SARIF as GitHub Actions artifact
+      # ==========================================
+      - name: Upload Semgrep SARIF artifact
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: semgrep-sarif
+          path: semgrep.sarif
+          if-no-files-found: error
