@@ -1,4 +1,5 @@
-name: "PHP SAST"
+```yaml
+name: "PHP SAST - Semgrep"
 
 on:
   push:
@@ -17,34 +18,38 @@ on:
 jobs:
   sast:
     name: PHP SAST - Semgrep
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     permissions:
       contents: read
       security-events: write
 
     steps:
-      # ----------------------------------------
+      # ==========================================
       # Checkout source code
-      # ----------------------------------------
+      # ==========================================
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      # ----------------------------------------
-      # Run Semgrep PHP security rules
-      # ----------------------------------------
-      - name: Run Semgrep PHP SAST
+      # ==========================================
+      # Run Semgrep PHP SAST
+      # ==========================================
+      - name: Run Semgrep
         uses: semgrep/semgrep-action@v1
         with:
-          config: >-
-            p/php
-          generateSarif: "1"
+          config: p/php
+          args: >
+            --sarif
+            --output=semgrep.sarif
+            --error
 
-      # ----------------------------------------
+      # ==========================================
       # Upload SARIF results to GitHub
-      # ----------------------------------------
+      # ==========================================
       - name: Upload SARIF results
         if: always()
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: semgrep.sarif
+          category: php-sast
+```
