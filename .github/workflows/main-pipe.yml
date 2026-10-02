@@ -1,4 +1,3 @@
-```yaml
 name: "PHP SAST"
 
 on:
@@ -47,4 +46,3 @@ jobs:
         with:
           sarif_file: semgrep.sarif
           category: php-sast
-```
